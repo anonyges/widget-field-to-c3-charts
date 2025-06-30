@@ -1,0 +1,258 @@
+<!-- Copyright start
+  Copyright (C) 2008 - 2023 Fortinet Inc.
+  All rights reserved.
+  FORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE
+  Copyright end -->
+<!-- author: anonyges@gmail.com
+    modified: 250625 -->
+<form data-ng-submit="bt_save()" class="noMargin" name="editWidgetForm" data-ng-class="{'state-wait': processing }"
+  novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title col-md-9">Field To C3 Charts</h3>
+    <button type="button" class="close" data-ng-click="bt_cancel()" data-dismiss="modal" aria-label="Close"
+      id="close-edit-widget-form-btn">
+      <div aria-hidden="true" class="version-button">+</div>
+    </button>
+  </div>
+
+
+  <div class="modal-body" id="{{container_uid}}">
+    <!-- Title Field -->
+    <div class="row">
+      <label class="col-md-1">Title:</label>
+      <div class="col-md-8" data-cs-field="data_cs_title" data-ng-model="config.title"></div>
+      <label class="col-md-2">Show Title:</label>
+      <div class="col-md-1">
+        <input type="checkbox" data-ng-model="config.title_show">
+      </div>
+    </div>
+    <hr>
+
+
+    <!-- FormEntityService Rendering -->
+    <div class="form-group">
+      <span>Field Selection To Trigger Update</span>
+      <div class="row">
+        <div class="col-md-10">
+          <select class="form-control"
+            data-ng-options="item for item in ap_formentityservice_1.scope.option_module_field_names | orderBy: item"
+            data-ng-model="ap_formentityservice_1.scope.selected_module_field_name">
+            <option value="">Select a field</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <div>
+            <button type="button" class="btn btn-primary"
+              data-ng-click="ap_formentityservice_1.bt_add_module_field_to_watch(ap_formentityservice_1.scope.selected_module_field_name);"
+              data-ng-disabled="!ap_formentityservice_1.scope.selected_module_field_name">Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="margin-top-xlg" data-if="ap_formentityservice_1.scope.config.selected_module_field_names.length > 0">
+        <ul class="padding-left-0 overflow-hidden">
+          <li
+            class="column-editor-block margin-right-sm margin-bottom-sm column-editor-block padding-top-4px padding-left-md font-size-14 padding-bottom-sm padding-right-md"
+            data-ng-repeat="item in ap_formentityservice_1.scope.config.selected_module_field_names | orderBy: item">
+            <div class="margin-right-md">{{item}}</div>
+            <div data-ng-show="ap_formentityservice_1.check_module_field_to_watch(item)">
+              <span class="icon icon-edit pull-right margin-top-sm"
+                data-ng-click="ap_formentityservice_1.bt_edit_module_field_to_watch(item)" role="button"></span>
+            </div>
+            <span class="icon icon-close text-danger pull-right margin-top-sm"
+              data-ng-click="ap_formentityservice_1.bt_remove_module_field_to_watch(item)" role="button"></span>
+          </li>
+        </ul>
+      </div>
+      <div ng-form name="form_ap_formentityservice_1" class="form-group">
+        <div class="form-control" style="height: auto;"
+          data-ng-if="ap_formentityservice_1.scope.edit_module_field_to_watch_ng_show">
+          <label
+            data-ng-class="{'has-error': ap_formentityservice_1.scope.edit_module_field_to_watch_ng_show }">Editing:
+            {{ap_formentityservice_1.scope.data_cs_conditional_selected_module_field_name}}
+            <span class="text-danger">*</span>
+          </label>
+          <div class="form-group padding-bottom-6">
+            <!-- get only linked (default) -->
+            <div class="control-label" style="display: flex; align-items: center; justify-content: left;">
+              <span class="margin-right-3">
+                <span
+                  data-uib-tooltip="Gets the linked Record with current Record. If this is unchecked, will query for none linked records also."
+                  data-tooltip-append-to-body="true">
+                  <i class="icon icon-information font-size-13"></i>
+                </span>
+                Record Linked:
+              </span>
+              <div data-cs-field="ap_formentityservice_1.scope.data_cs_field_selected_module_get_only_linked"
+                data-ng-model="ap_formentityservice_1.scope.data_cs_field_selected_module_get_only_linked_model">
+              </div>
+            </div>
+            <!-- limit -->
+            <div class="control-label" style="display: flex; align-items: center; justify-content: left;">
+              <span class="margin-right-3">
+                <span data-uib-tooltip="Record Limit to fetch." data-tooltip-append-to-body="true">
+                  <i class="icon icon-information font-size-13"></i>
+                </span>
+                Record Limit:
+              </span>
+              <div data-cs-field="ap_formentityservice_1.scope.data_cs_field_selected_module_limit"
+                data-ng-model="ap_formentityservice_1.scope.data_cs_field_selected_module_limit_model">
+              </div>
+            </div>
+            <!-- limit output with selectFields -->
+            <div class="control-label" style="display: flex; align-items: center; justify-content: left;">
+              <span class="margin-right-3">
+                <span
+                  data-uib-tooltip="Allows to limit and refine the output of search for better performance and usability. For example, you can limit the search output to only show name of the record and related indicators."
+                  data-tooltip-append-to-body="true">
+                  <i class="icon icon-information font-size-13"></i>
+                </span>
+                Limit Output:
+              </span>
+              <input type="checkbox"
+                data-ng-model="ap_formentityservice_1.data_cs_field_selected_module_selectFields_show">
+            </div>
+          </div>
+          <div data-ng-show="ap_formentityservice_1.data_cs_field_selected_module_selectFields_show"
+            style="padding-top: 0.5ch;">
+            <tags-input ng-model="ap_formentityservice_1.scope.data_cs_field_selected_module_selectFields_model"
+              key-property="name" add-on-enter="true" display-property="name" min-length="1"
+              placeholder="{{ 'PLAYBOOKS.DESIGNER.STEP_ARGUMENTS.PLACEHOLDER_ADD_A_FIELD' | translate }}"
+              replace-spaces-with-dashes="false" class="find-record-tags-input" template="find-record-template"
+              on-tag-removed="ap_formentityservice_1.update_data_cs_field_selected_module_selectFields_model()"
+              on-tag-added="ap_formentityservice_1.update_data_cs_field_selected_module_selectFields_model()">
+              <auto-complete
+                source="ap_formentityservice_1.auto_complete_data_cs_field_selected_module_selectFields($query)"
+                load-on-focus="true" min-length="1" load-on-empty="true" max-results-to-show="1000"
+                template="autocomplete-template"></auto-complete>
+            </tags-input>
+            <script type="text/ng-template" id="find-record-template">
+                <div class="right-panel"><span>{{$getDisplayText()}}</span><a class="remove-button" ng-click="$removeTag()"><span class="icon icon-close"></span></a></div>
+                          </script>
+          </div>
+          <!-- search query -->
+          <label for="search_query" class="control-label" style="padding-top: 1ch;">{{
+            'PLAYBOOKS.DESIGNER.STEP_ARGUMENTS.LABEL_BUILD_SEARCH_QUERY' | translate}}</label>
+          <div data-cs-conditional
+            data-ng-if="ap_formentityservice_1.scope.data_cs_conditional_selected_module_field.fieldsArray.length > 0"
+            data-enable-nested-filter="true" data-mode="'queryFilters'"
+            data-fields="ap_formentityservice_1.scope.data_cs_conditional_selected_module_field.fields"
+            data-reset-field="ap_formentityservice_1.scope.data_cs_conditional_selected_module_field.reset_field"
+            data-ng-model="ap_formentityservice_1.scope.data_cs_conditional_selected_module_field.model"
+            data-parent-form="form_ap_formentityservice_1">
+          </div>
+          <!-- sorting -->
+          <label for="sort" class="control-label" style="padding-top: 1ch;">
+            {{'PLAYBOOKS.DESIGNER.STEP_ARGUMENTS.LABEL_SORT_REC_BY' | translate}}</label>
+          <div data-cs-default-sort
+            data-ng-model="ap_formentityservice_1.scope.data_cs_field_selected_module_sort_model"
+            data-fields-array="ap_formentityservice_1.scope.data_cs_conditional_selected_module_field.fieldsArray"
+            data-parent-form="form_ap_formentityservice_1"></div>
+          <!-- Error Message -->
+          <div class="text-danger" data-ng-show="ap_formentityservice_1.scope.edit_module_field_to_watch_ng_show_error">
+            <span>Please complete this form and click "Save" or "Discard" button below</span>
+          </div>
+          <!-- save buttons -->
+          <div style="padding-top: 1ch;">
+            <button id="edit-widget-save" type="button" class="btn btn-sm btn-primary"
+              data-ng-click="ap_formentityservice_1.data_cs_conditional_selected_module_field_model_save()"><i
+                class="icon icon-check margin-right-sm"></i>Save</button>
+            <button id="edit-widget-cancel" type="button" class="btn btn-sm btn-default"
+              data-ng-click="ap_formentityservice_1.data_cs_conditional_selected_module_field_model_discard()"><i
+                class="icon icon-close margin-right-sm"></i>Discard</button>
+          </div>
+        </div>
+      </div>
+      <div data-ng-if="ap_formentityservice_1.scope.edit_module_field_to_watch_ng_show">
+        <input type="checkbox" style="display: none;" name="edit_field"
+          data-ng-model="ap_formentityservice_1.edit_field_show" aria-hidden="true" required="required"
+          aria-invalid="true">
+        <div data-cs-messages="editWidgetForm.edit_field" class="text-danger"></div>
+      </div>
+    </div>
+    <hr>
+
+
+    <!-- Module Field Debug Renderer -->
+    <div class="form-group">
+      <div class="display-flex-space-between" style="align-items: center;">
+        <span>Module Field Debug Renderer</span>
+        <div>
+          <span class="fa btn widget-action-icon icon icon-refresh btn-sm pull-right"
+            data-ng-click="bt_refresh_module_debug_field()"></span>
+          <span class="fa btn widget-action-icon btn-sm pull-right"
+            data-ng-click="data_cs_module_field_debug_renderer_ng_hide = !data_cs_module_field_debug_renderer_ng_hide"
+            data-ng-class="{'fa-caret-up': !data_cs_module_field_debug_renderer_ng_hide, 'fa-caret-down': data_cs_module_field_debug_renderer_ng_hide}"></span>
+        </div>
+      </div>
+      <div data-ng-hide="data_cs_module_field_debug_renderer_ng_hide">
+        <div data-ng-show="!processing" class="ng-scope" aria-hidden="false">
+          <div data-cs-field="data_cs_module_field_debug_renderer"
+            data-ng-model="data_cs_module_field_debug_renderer_model">
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+
+    <!-- Select Chart type -->
+    <div class="form-group">
+      <div class="display-flex-space-between" style="align-items: center;">
+        <span>Select Chart type</span>
+      </div>
+      <div class="form-group">
+        <select class="form-control" data-ng-options="_type for _type in chart_types"
+          data-ng-model="config.selected_chart_type" data-ng-change="chart_type_changed()" novalidate="" required>
+          <option value="">Select a chart type</option>
+        </select>
+      </div>
+    </div>
+    <hr>
+
+
+    <!-- Chart JSON Structure -->
+    <div class="form-group">
+      <div class="display-flex-space-between" style="align-items: center;">
+        <span>Chart JSON Structure</span>
+        <span class="fa btn widget-action-icon btn-sm pull-right"
+          data-ng-click="data_cs_chart_json_structure_ng_hide = !data_cs_chart_json_structure_ng_hide"
+          data-ng-class="{'fa-caret-up': !data_cs_chart_json_structure_ng_hide, 'fa-caret-down': data_cs_chart_json_structure_ng_hide}"></span>
+      </div>
+      <div data-ng-hide="data_cs_chart_json_structure_ng_hide">
+        <div data-ng-show="!processing" class="ng-scope" aria-hidden="false">
+          <div data-cs-field="data_cs_chart_json_structure" data-ng-model="config.data_cs_chart_json_structure_model">
+          </div>
+        </div>
+        <cs-spinner data-ng-show="processing" class="ng-scope ng-isolate-scope ng-hide" aria-hidden="true">
+          <div class="loader" data-ng-class="{'background' : showBackground, 'margin-0': noMargin}">
+            <div class="cs-spinner"></div>
+          </div>
+        </cs-spinner>
+      </div>
+    </div>
+    <hr>
+
+    <!-- Rendered Chart -->
+    <div class="form-group">
+      <div class="display-flex-space-between" style="align-items: center;">
+        <span>Rendered Chart</span>
+        <div>
+          <span class="fa btn widget-action-icon icon icon-refresh btn-sm pull-right"
+            data-ng-click="bt_redraw_chart()"></span>
+          <span class="fa btn widget-action-icon btn-sm pull-right" data-ng-click="chart_ng_hide = !chart_ng_hide"
+            data-ng-class="{'fa-caret-up': !chart_ng_hide, 'fa-caret-down': chart_ng_hide}"></span>
+        </div>
+      </div>
+      <div data-ng-hide="chart_ng_hide" id="{{chart_uid}}"></div>
+    </div>
+    <!-- End of Content  -->
+  </div>
+
+
+  <div class="modal-footer">
+    <button id="edit-widget-save" type="submit" class="btn btn-sm btn-primary"><i
+        class="icon icon-check margin-right-sm"></i>Save</button>
+    <button id="edit-widget-cancel" type="button" class="btn btn-sm btn-default" data-ng-click="bt_cancel()"><i
+        class="icon icon-close margin-right-sm"></i>Close</button>
+  </div>
+</form>
